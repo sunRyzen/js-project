@@ -6,7 +6,7 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-    User = require("./models/user");
+    User = require("./models/users");
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -16,7 +16,7 @@ mongoose.connect("mongodb://localhost/auth_demo_app");
 
 var app = express();
 app.set("view engine", "ejs");
-//app.use(bodyParser.urlencoded({ extended: true})); might not need this
+//app.use(bodyParser.urlencoded({ extended: true})); //might not need this
 
 app.use(require("express-session")({
     secret: "This is a test",
@@ -90,3 +90,6 @@ var port = process.env.PORT || 3000;
 app.listen(port, function () {
     console.log("Server has Started!");
 });
+//app.listen(3000, async ()=>{
+  //  console.log("Server is running");
+//});
