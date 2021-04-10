@@ -7,6 +7,7 @@ var express = require("express"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
     User = require("./models/users");
+let dbManager = require("./database/dbManager");
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -40,15 +41,20 @@ app.get("/", function (req, res){
 });
 
 //secret page after login
-app.get("/secret", isLoggedIn, function (req, res){
-    res.render("secret");
+app.get("/userInfo", isLoggedIn, function (req, res){
+    res.render("userInfo");
 });
+
+app.get("/register", function(req, res){
+    res.render("register");
+})
 
 //user signup
 app.post("/register", function (req, res){
     var username = req.body.username
     var password = req.body.password
-    User.register(new User({ username: username }),
+    var email = req.body.email
+    User.register(new User({ username: username, email: email }),
         password, function(err, user) {
             if (err){
                 console.log(err);
@@ -57,7 +63,7 @@ app.post("/register", function (req, res){
 
             passport.authenticate("local")(
                 req, res, function () {
-                    res.render("secret");
+                    res.render("userInfo");
                 });
         });
         });
@@ -86,10 +92,6 @@ function isLoggedIn(req, res, next){
     res.redirect("/login");
 }
 
-var port = process.env.PORT || 3000;
-app.listen(port, function () {
-    console.log("Server has Started!");
+app.listen(3000, async ()=>{
+  console.log("Server is running");
 });
-//app.listen(3000, async ()=>{
-  //  console.log("Server is running");
-//});
