@@ -7,12 +7,15 @@ var express = require("express"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
     User = require("./models/users");
+    UserInfo = require("./models/users");
+    history = require("./models/users");
 let dbManager = require("./database/dbManager");
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
+mongoose.set('bufferCommands', false);
 mongoose.connect("mongodb://localhost/auth_demo_app");
 
 var app = express();
@@ -24,6 +27,9 @@ app.use(require("express-session")({
     resave: false,
     saveUninitialized: false
 }));
+
+//For gif display on homepage
+app.use(express.static("public"));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -75,7 +81,7 @@ app.get("/login", function (req, res) {
 
 //handling user login
 app.post("/login", passport.authenticate("local", {
-    successRedirect: "/secret",
+    successRedirect: "/userInfo",
     failureRedirect: "/login"
 
 }), function (req, res){
