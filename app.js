@@ -9,6 +9,7 @@ var express = require("express"),
     User = require("./models/users");
     UserInfo = require("./models/users");
     history = require("./models/users");
+    http = require("http");
 let dbManager = require("./database/dbManager");
 
 mongoose.set('useNewUrlParser', true);
@@ -16,7 +17,7 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 mongoose.set('bufferCommands', false);
-mongoose.connect("mongodb://localhost/auth_demo_app");
+//mongoose.connect("mongodb://localhost/auth_demo_app");
 
 var app = express();
 app.set("view engine", "ejs");
@@ -57,11 +58,10 @@ app.get("/register", function(req, res){
 
 //user signup
 app.post("/register", function (req, res){
-    var username = req.body.username
-    var password = req.body.password
-    var email = req.body.email
-    User.register(new User({ username: username, email: email }),
-        password, function(err, user) {
+    var username = req.body.username;
+    var email = req.body.email;
+    User.register(new User({ username: username, email: email}),
+        req.body.password, function(err, user) {
             if (err){
                 console.log(err);
                 return res.render("register");
@@ -69,7 +69,7 @@ app.post("/register", function (req, res){
 
             passport.authenticate("local")(
                 req, res, function () {
-                    res.render("userInfo");
+                    res.render("login");
                 });
         });
         });
@@ -98,6 +98,12 @@ function isLoggedIn(req, res, next){
     res.redirect("/login");
 }
 
+
 app.listen(3000, async ()=>{
-  console.log("Server is running");
+    try{
+        await mongoose.connect('mongodb://localhost:27017/projectDB', {useNewUrlParser: true, useUnifiedTopology: true})
+    } catch(e){
+        console.log(e.message);
+    }
+    console.log("Server is fine and running");
 });

@@ -17,24 +17,24 @@ var UserSchema=mongoose.Schema({
      }
 });
 
-var UserInfoSchema = mongoose.Schema({
-    username: {
-        type: String,//UserInfoSchema.username
-    },
-    zipcode: {
-        type: Number,
-        required: true
-    },  
-    date: {
-        type: Number,
-        required: true
-    }
-})
+//var UserInfoSchema = mongoose.Schema({
+  //  username: {
+    //    type: String,//UserInfoSchema.username
+    //},
+    //zipcode: {
+      //  type: Number,
+        //required: true
+    //},  
+    //date: {
+      //  type: Number,
+        //required: true
+    //}
+//})
 
-var historySchema = mongoose.Schema({
-    zipcode: Number,
-    date: Number
-})
+//var historySchema = mongoose.Schema({
+  //  zipcode: Number,
+    //date: Number
+//})
 
 
 
