@@ -60,8 +60,9 @@ app.get("/register", function(req, res){
 app.post("/register", function (req, res){
     var username = req.body.username;
     var email = req.body.email;
+    var password = req.body.password
     User.register(new User({ username: username, email: email}),
-        req.body.Password, function(err, user) {
+        password, function(err, user) {
             if (err){
                 console.log(err);
                 res.render("register");

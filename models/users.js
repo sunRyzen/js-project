@@ -11,7 +11,7 @@ var UserSchema=mongoose.Schema({
         required: true
     },
     email: String,
-    Password: {
+    password: {
         type: String,
         required: true
      }
