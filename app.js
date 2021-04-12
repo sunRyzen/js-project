@@ -21,7 +21,7 @@ mongoose.set('bufferCommands', false);
 
 var app = express();
 app.set("view engine", "ejs");
-//app.use(bodyParser.urlencoded({ extended: true})); //might not need this
+app.use(bodyParser.urlencoded({ extended: true})); //might not need this
 
 app.use(require("express-session")({
     secret: "This is a test",
@@ -47,7 +47,7 @@ app.get("/", function (req, res){
     res.render("home");
 });
 
-//secret page after login
+//User page after login
 app.get("/userInfo", isLoggedIn, function (req, res){
     res.render("userInfo");
 });
@@ -61,15 +61,15 @@ app.post("/register", function (req, res){
     var username = req.body.username;
     var email = req.body.email;
     User.register(new User({ username: username, email: email}),
-        req.body.password, function(err, user) {
+        req.body.Password, function(err, user) {
             if (err){
                 console.log(err);
-                return res.render("register");
+                res.render("register");
             }
 
             passport.authenticate("local")(
                 req, res, function () {
-                    res.render("login");
+                    res.redirect("login");
                 });
         });
         });
