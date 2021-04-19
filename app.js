@@ -62,7 +62,7 @@ app.post("/register", function (req, res){
     var email = req.body.email;
     var password = req.body.password
     User.register(new User({ username: username, email: email}),
-        password, function(err, users) {
+        password, function(err, user) {
             if (err){
                 console.log(err);
                 res.render("register");
@@ -95,7 +95,7 @@ app.get("/logout", function (req, res){
 });
 
 function isLoggedIn(req, res, next){
-    if (req.IsAuthenticated()) return next();
+    if (req.isAuthenticated()) return next();
     res.redirect("/login");
 }
 

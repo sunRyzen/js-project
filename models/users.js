@@ -13,7 +13,6 @@ var UserSchema=mongoose.Schema({
     email: String,
     password: {
         type: String,
-        required: true
      }
 });
 
