@@ -5,6 +5,10 @@ const btoa = require('btoa');
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 const API_KEY = '116b498b620ae1272a3f6b1d7c177f21';
 
+class location {
+    constructor(latitude, longitude)
+}
+
 let zipcode = '400607';
 let country = 'in';
 
@@ -22,6 +26,7 @@ axios.get(ENTIRE_API_URL)
     Longitude: ${longitude} \n
     Current cloud cover at ${zipcode}, ${response.data.name} is ${weather} %! `);
     console.log(display);
+    this.location = new location(latitude, longitude);
 })
 .catch(error => console.log('Error', error));
 
