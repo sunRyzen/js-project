@@ -1,19 +1,19 @@
 //written by juliann u & yash mhaske, code modified from here: https://www.geeksforgeeks.org/login-form-using-node-js-and-mongodb/
 
-const { ObjectID } = require("bson");
+
 var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-    User = require("./models/users");
+   
     UserInfo = require("./models/users");
     history = require("./models/users");
     http = require("http");
-    ObjectID = require('mongodb').ObjectID;
+var ObjectID = require('mongodb').ObjectID;
 let dbManager = require("./database/dbManager");
-
+const User = require("./models/users");
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -52,10 +52,10 @@ app.get("/", function (req, res){
 
 //User page after login
 app.get("/userInfo", isLoggedIn, async function (req, res){
-    let users = dbManager.get().collection("users");
+    //let users = dbManager.get().collection("users");
 
     try{
-        let user = await users.findOne({_id: ObjectId(req.params.userID)});
+        let user = await User.findOne({_id: ObjectId(req.params.userID)});
         console.log(user);
 
     } catch(err) {
