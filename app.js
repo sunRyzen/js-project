@@ -4,7 +4,6 @@
 var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
-    bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
    
@@ -25,7 +24,6 @@ mongoose.set('bufferCommands', false);
 
 var app = express();
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true})); //might not need this
 
 app.use(require("express-session")({
     secret: "This is a test",
