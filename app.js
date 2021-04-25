@@ -14,6 +14,7 @@ var express = require("express"),
 var ObjectID = require('mongodb').ObjectID;
 let dbManager = require("./database/dbManager");
 const User = require("./models/users");
+const userCol = require("./models/userInfo");
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
