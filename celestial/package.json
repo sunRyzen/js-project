@@ -1,0 +1,15 @@
+{
+  "name": "celestial",
+  "version": "1.0.0",
+  "description": "A zipcode based attempt at a map",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3-celestial": "^0.7.35",
+    "http-server": "^0.12.3"
+  }
+}
