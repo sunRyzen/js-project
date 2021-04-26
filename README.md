@@ -9,8 +9,6 @@ modules used:
 
   $ npm install mongoose
 
-  $ npm install body-parser --save (dont think this is neccesary as it is now deprecated)
-
   npm install express-session --save
 
   npm install passport passport-local --save
