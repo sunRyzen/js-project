@@ -1,4 +1,4 @@
-//written by juliann u & yash mhaske, code modified from here: https://www.geeksforgeeks.org/login-form-using-node-js-and-mongodb/
+//written by juliann u & yash mhaske
 
 
 var express = require("express"),
