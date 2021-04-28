@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 //written by juliann u & yash mhaske, code modified from here:  https://www.geeksforgeeks.org/login-form-using-node-js-and-mongodb/
-=======
-//written by juliann u & yash mhaske
-
->>>>>>> 83c32eea6829807026518983c63e9420e9ca4aee
 
 var express = require("express"),
     mongoose = require("mongoose"),

@@ -5,20 +5,19 @@ const btoa = require('btoa');
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 const API_KEY = '116b498b620ae1272a3f6b1d7c177f21';
 
-class location {
-    constructor(latitude, longitude)
-}
+//class location {
+  //  constructor(latitude, longitude)
+//}
 
 let zipcode = '400607';
 let country = 'in';
 
 const ENTIRE_API_URL = `${API_URL}${zipcode},${country}&appid=${API_KEY}`;
-var latitude = 0;
-var longitude = 0;
+
 axios.get(ENTIRE_API_URL)
 .then(response => {
-    latitude = response.data.coord.lat;
-    longitude = response.data.coord.lon;
+    let latitude = response.data.coord.lat;
+    let longitude = response.data.coord.lon;
     const weather = response.data.clouds.all;
     
     const display = (`The coordinates of ${zipcode} are: \n
@@ -26,7 +25,7 @@ axios.get(ENTIRE_API_URL)
     Longitude: ${longitude} \n
     Current cloud cover at ${zipcode}, ${response.data.name} is ${weather} %! `);
     console.log(display);
-    this.location = new location(latitude, longitude);
+    //this.location = new location(latitude, longitude);
 })
 .catch(error => console.log('Error', error));
 
@@ -52,8 +51,8 @@ axios.post(`${SKY_API_URL}/studio/star-chart`,
     {
         "style": "inverted",
         "observer": {
-            "latitude": latitude,
-            "longitude": longitude,
+            "latitude": this.latitude,
+            "longitude": this.longitude,
             "date": "2021-4-13"
         },
         "view": {
