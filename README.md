@@ -1,5 +1,5 @@
 # js-project
-for a project in my javascript class
+A project made by Juliann Umana, Yash Mhaske, Nicholas Ingram, and Joseph Schwab. This project utilizes the AstronomyAPI Star Chart, and allows you to see the stars on a specific day in an area.
 
 modules used:
 
@@ -8,8 +8,6 @@ modules used:
   $ npm install express --save
 
   $ npm install mongoose
-
-  $ npm install body-parser --save (dont think this is neccesary as it is now deprecated)
 
   npm install express-session --save
 

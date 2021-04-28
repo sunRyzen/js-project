@@ -13,33 +13,12 @@ var UserSchema=mongoose.Schema({
     email: String,
     password: {
         type: String,
-        required: true
      }
 });
-
-//var UserInfoSchema = mongoose.Schema({
-  //  username: {
-    //    type: String,//UserInfoSchema.username
-    //},
-    //zipcode: {
-      //  type: Number,
-        //required: true
-    //},  
-    //date: {
-      //  type: Number,
-        //required: true
-    //}
-//})
-
-//var historySchema = mongoose.Schema({
-  //  zipcode: Number,
-    //date: Number
-//})
 
 
 
 UserSchema.plugin(passportLocalMongoose);
 
 module.exports=mongoose.model("users", UserSchema);
-//module.exports=mongoose.model("usersInfo", UserInfoSchema);
 //module.exports=mongoose.model("history", historySchema);

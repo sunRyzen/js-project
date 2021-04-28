@@ -1,16 +1,24 @@
+<<<<<<< HEAD
 //written by juliann u & yash mhaske, code modified from here:  https://www.geeksforgeeks.org/login-form-using-node-js-and-mongodb/
+=======
+//written by juliann u & yash mhaske
+
+>>>>>>> 83c32eea6829807026518983c63e9420e9ca4aee
 
 var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
-    bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-    User = require("./models/users");
+   
     UserInfo = require("./models/users");
     history = require("./models/users");
     http = require("http");
+var ObjectID = require('mongodb').ObjectID;
 let dbManager = require("./database/dbManager");
+const User = require("./models/users");
+const userCol = require("./models/userInfo");
+const historyCol = require("./models/history");
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -21,7 +29,6 @@ mongoose.set('bufferCommands', false);
 
 var app = express();
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true})); //might not need this
 
 app.use(require("express-session")({
     secret: "This is a test",
@@ -48,7 +55,17 @@ app.get("/", function (req, res){
 });
 
 //User page after login
-app.get("/userInfo", isLoggedIn, function (req, res){
+app.get("/userInfo", isLoggedIn, async function (req, res){
+    //let users = dbManager.get().collection("users");
+
+    try{
+        let user = await User.findOne({_id: ObjectId(req.params.userID)});
+        console.log(user);
+
+    } catch(err) {
+        console.log(err.message);
+    }
+
     res.render("userInfo");
 });
 
@@ -62,7 +79,7 @@ app.post("/register", function (req, res){
     var email = req.body.email;
     var password = req.body.password
     User.register(new User({ username: username, email: email}),
-        password, function(err, users) {
+        password, function(err, user) {
             if (err){
                 console.log(err);
                 res.render("register");
@@ -95,7 +112,7 @@ app.get("/logout", function (req, res){
 });
 
 function isLoggedIn(req, res, next){
-    if (req.IsAuthenticated()) return next();
+    if (req.isAuthenticated()) return next();
     res.redirect("/login");
 }
 
