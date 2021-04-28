@@ -1,5 +1,5 @@
 # js-project
-for a project in my javascript class
+A project made by Juliann Umana, Yash Mhaske, Nicholas Ingram, and Joseph Schwab. This project utilizes the AstronomyAPI Star Chart, and allows you to see the stars on a specific day in an area.
 
 modules used:
 
