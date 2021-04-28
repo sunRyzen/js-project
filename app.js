@@ -5,7 +5,7 @@ var express = require("express"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-   
+    bodyParser = require('body-parser');
     UserInfo = require("./models/users");
     history = require("./models/users");
     http = require("http");
@@ -33,6 +33,7 @@ app.use(require("express-session")({
 
 //For gif display on homepage
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -54,7 +55,7 @@ app.get("/userInfo", isLoggedIn, async function (req, res){
     //let users = dbManager.get().collection("users");
 
     try{
-        let user = await User.findOne({_id: ObjectId(req.params.userID)});
+        let user = await User.findOne({_id: req.params.username});
         console.log(user);
 
     } catch(err) {
