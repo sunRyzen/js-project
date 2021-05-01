@@ -13,11 +13,11 @@ let zipcode = '400607';
 let country = 'in';
 
 const ENTIRE_API_URL = `${API_URL}${zipcode},${country}&appid=${API_KEY}`;
-
+let coordinates = {};
 axios.get(ENTIRE_API_URL)
 .then(response => {
-    let latitude = response.data.coord.lat;
-    let longitude = response.data.coord.lon;
+    coordinates.latitude = response.data.coord.lat;
+    coordinates.longitude = response.data.coord.lon;
     const weather = response.data.clouds.all;
     
     const display = (`The coordinates of ${zipcode} are: \n
@@ -72,3 +72,6 @@ axios.post(`${SKY_API_URL}/studio/star-chart`,
         console.log(response.data);
     })
     .catch(error => console.log('Error', error));
+
+
+    

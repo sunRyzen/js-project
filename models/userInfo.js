@@ -10,12 +10,16 @@ const UserInfoSchema = mongoose.Schema({
             type: Number,
             required: true
         },  
-        date: {
-            type: Number,
-            required: true
-        }
+    date: {
+        type: Number,
+        required: true
+    },
+    country: {
+        type: String, 
+        required: true
+    }
 })
 
-const userCol = mongoose.model('UserInfo', UserInfoSchema);
+const userInfo = mongoose.model('UserInfo', UserInfoSchema);
 
-module.exports = userCol;
+module.exports = userInfo;
