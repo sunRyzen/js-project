@@ -21,8 +21,8 @@ axios.get(ENTIRE_API_URL)
     const weather = response.data.clouds.all;
     
     const display = (`The coordinates of ${zipcode} are: \n
-    Latitude: ${latitude} \n
-    Longitude: ${longitude} \n
+    Latitude: ${coordinates.latitude} \n
+    Longitude: ${coordinates.longitude} \n
     Current cloud cover at ${zipcode}, ${response.data.name} is ${weather} %! `);
     console.log(display);
     //this.location = new location(latitude, longitude);
@@ -39,6 +39,21 @@ const hash = btoa(`${SKY_API_KEY}:${SKY_SECRET_KEY}`);
 axios.get(`${SKY_API_URL}/bodies`, {
     headers: {
     Authorization: `Basic ${hash}`
+},
+})
+.then(response=>{
+    console.log(response.data);
+})
+.catch(error => console.log('Error', error));
+
+axios.get(`${SKY_API_URL}/bodies/positions`, {
+    headers: {
+    Authorization: `Basic ${hash}`,
+    "latitude": coordinates.latitude,
+    "longitude": coordinates.longitude,
+    "from_date": "2021-05-02",
+    "to_date": "2021-05-03",
+    "time": "08:00:00"
 },
 })
 .then(response=>{
@@ -72,6 +87,3 @@ axios.post(`${SKY_API_URL}/studio/star-chart`,
         console.log(response.data);
     })
     .catch(error => console.log('Error', error));
-
-
-    

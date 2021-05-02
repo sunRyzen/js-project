@@ -7,7 +7,10 @@ let express = require("express"),
     bodyParser = require('body-parser');
     http = require("http");
 var ObjectID = require('mongodb').ObjectID;
+var qString = require("querystring");
 let dbManager = require("./database/dbManager");
+const axios = require('axios');
+const btoa = require('btoa');
 
 const historyCol = require("./models/history");
 
@@ -24,6 +27,15 @@ app.set("view engine", "ejs");
 let session = require('express-session');
 let crypto = require('crypto');
 const userCol = require('./models/users');
+
+//API stuff
+const weather_API_URL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+const weather_API_KEY = '116b498b620ae1272a3f6b1d7c177f21';
+const sky_API_URL = 'https://api.astronomyapi.com/api/v2';
+const sky_API_KEY = '3206e5f7-04e2-4b0d-84d4-cb769bdb785a';
+const sky_SECRET_KEY = '6ac5b2276b28bfab8f45b6f5f24612f52103960d443b52769a5e711b0c744e6955e51231842a4027c3828b4ecaca169a38e174e11a74c4bb3cbc77667b4aa5c06d6eaf33185d1aadc6f8d5c104a90516675b72224f1ceffa848172e696cd9f90b670e131a0ddb59058b233574f3d8ae3';
+const hash = btoa(`${sky_API_KEY}:${sky_SECRET_KEY}`);
+
 function genHash(input){
     return Buffer.from(crypto.createHash('sha256').update(input).digest('base32')).toString('hex').toUpperCase();
 }
@@ -46,7 +58,7 @@ app.use(session({
 
 //For gif display on homepage
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 
 //app.use(passport.initialize());
 //app.use(passport.session());
@@ -54,6 +66,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //passport.use(new LocalStrategy(User.authenticate()));
 //passport.serializeUser(User.serializeUser());
 //passport.deserializeUser(User.deserializeUser());
+
+var postParams;
+function moveOn(postData){
+    let proceed = true;
+    postParams = qString.parse(postData);
+    for (property in postParams){
+        if (postParams[property].toString().trim() == ''){
+            proceed = false;
+        }
+    }
+    return proceed;
+}
 
 //ROUTES
 //BELOW
@@ -82,6 +106,23 @@ app.get("/userInfo", async function (req, res){
 
     res.render("userInfo");
 });
+
+app.post("/userInfo", function(req, res){
+    postData = '';
+    req.on('data', (data) =>{
+        postData+=data;
+    })
+
+    req.on('end', async()=>{
+        postParams = qString.parse(postData);
+        console.log(postData);
+
+        try{
+            let coordinates = {}
+            
+        }
+    })
+})
 
 app.get("/register", function(req, res){
     if (req.session.user){
@@ -120,7 +161,7 @@ app.get("/login", function (req, res) {
 
 //handling user login
 app.post("/login", express.urlencoded({extended:false}), async (req,res,next)=> {
-    let untrusted = {user: req.body.userName, password: genHash(req.body.pass)};
+    let untrusted = {user: req.body.userName, password: genHash(req.body.password)};
 
     try{
         let result = await userCol.findOne({_id: req.body.userName});
