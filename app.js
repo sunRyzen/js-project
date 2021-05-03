@@ -18,9 +18,11 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 mongoose.set('bufferCommands', false);
+
 //mongoose.connect("mongodb://localhost/auth_demo_app");
 
 let app = express();
+let session = require('express-session');
 app.set("view engine", "ejs");
 
 app.use(require("express-session")({
@@ -53,7 +55,7 @@ app.get("/userInfo", isLoggedIn, async function (req, res){
     //let users = dbManager.get().collection("users");
 
     try{
-        let user = await User.findOne({_id: req.params.username});
+        let user = await User.findOne({_id: ObjectID(req.params.userID)});
         console.log(user);
 
     } catch(err) {
