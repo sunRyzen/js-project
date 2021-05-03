@@ -23,7 +23,7 @@ axios.get(ENTIRE_API_URL)
     const display = (`The coordinates of ${zipcode} are: \n
     Latitude: ${coordinates.latitude} \n
     Longitude: ${coordinates.longitude} \n
-    Current cloud cover at ${zipcode}, ${response.data.name} is ${weather} %! `);
+    Current cloud cover at ${zipcode}, ${response.data.name} is ${weather} %!`);
     console.log(display);
     //this.location = new location(latitude, longitude);
 })

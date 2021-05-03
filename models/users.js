@@ -1,12 +1,12 @@
 //Reference:https://www.geeksforgeeks.org/login-form-using-node-js-and-mongodb/
 //Modified by: Yash M
 var mongoose = require("mongoose");
-//var passportLocalMongoose=require("passport-local-mongoose");
+var passportLocalMongoose=require("passport-local-mongoose");
 mongoose.set('bufferCommands', false);
 
 //Create a database model for users
 const UserSchema= new mongoose.Schema({
-    _id: {
+    username: {
         type: String,
         required: true
     },
@@ -18,8 +18,8 @@ const UserSchema= new mongoose.Schema({
 
 
 
-//UserSchema.plugin(passportLocalMongoose);
-const userCol = mongoose.model('User', UserSchema);
+UserSchema.plugin(passportLocalMongoose);
+module.exports = mongoose.model("User", UserSchema);
 
-module.exports= userCol
+//module.exports= userCol
 //module.exports=mongoose.model("history", historySchema);
