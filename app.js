@@ -1,5 +1,5 @@
 //written by juliann u & yash mhaske, code modified from here:  https://www.geeksforgeeks.org/login-form-using-node-js-and-mongodb/
-
+//Reference: APW JS Final Lab code by Prof. Jacob Levy
 var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
@@ -7,11 +7,40 @@ var express = require("express"),
     passportLocalMongoose = require("passport-local-mongoose"),
     bodyParser = require('body-parser');
     http = require("http");
+    qString = require('querystring');
 var ObjectID = require('mongodb').ObjectID;
 let dbManager = require("./database/dbManager");
+//let celestial = require('d3-celestial');
+
 
 const User = require("./models/users");
-const historyCol = require("./models/history");
+const userCol = require("./models/userInfo");
+
+var postData;
+
+//API Stuff
+const axios = require('axios');
+const ZIP_API_URL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+const ZIP_API_KEY = '116b498b620ae1272a3f6b1d7c177f21';
+//const ENTIRE_API_URL = `${ZIP_API_URL}${zipcode},${country}&appid=${ZIP_API_KEY}`;
+
+function docifyInfo(params){
+    let doc = new userCol({zipcode: params.zipcode,
+    date: params.date, time: params.time, country: params.country})
+    return doc;
+}
+
+var postParams;
+function moveOn(postData){
+    let proceed = true;
+    postParams = qString.parse(postData);
+    for (property in postParams){
+        if (postParams[property].toString().trim() == ''){
+            proceed = false;
+        }
+    }
+    return proceed;
+}
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -56,7 +85,7 @@ app.get("/userInfo", isLoggedIn, async function (req, res){
 
     try{
         let user = await User.findOne({_id: ObjectID(req.params.userID)});
-        console.log(user);
+        //console.log(user);
 
     } catch(err) {
         console.log(err.message);
@@ -64,6 +93,51 @@ app.get("/userInfo", isLoggedIn, async function (req, res){
 
     res.render("userInfo");
 });
+
+
+let zipcode;
+let country;
+let time;
+let date;
+let coordinates = {}
+app.post("/userInfo", isLoggedIn, async function(req, res){
+    postData = '';
+    req.on('data', (data) => {
+        postData+=data;
+    })
+    req.on('end', async() => {
+        postParams = qString.parse(postData);
+        console.log(postData);
+
+        try{
+            let newInfo = {};
+            zipcode = req.body.zipcode;
+            date = req.body.date;
+            time = req.body.time;
+            country = req.body.country;
+
+            await docifyInfo(newInfo).save();
+
+            const ENTIRE_API_URL = `${ZIP_API_URL}${zipcode},${country}&appid=${ZIP_API_KEY}`;
+            
+            axios.get(ENTIRE_API_URL).then(response=>{
+                coordinates.latitude = response.data.coord.lat;
+                coordinates.longitude = response.data.coord.lon;
+
+                const display = (`The coordinates of ${zipcode} are: \n
+                Latitude: ${coordinates.latitude} \n
+                Longitude: ${coordinates.longitude} \n
+                Current cloud cover at ${zipcode}, ${response.data.name} is ${weather} %!`);
+                console.log(display);
+            })
+
+        } catch (err){
+            next(err);
+        }
+        
+    })
+})
+
 
 app.get("/register", function(req, res){
     res.render("register");
