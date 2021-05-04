@@ -95,10 +95,7 @@ app.get("/userInfo", isLoggedIn, async function (req, res){
 });
 
 
-let zipcode;
-let country;
-let time;
-let date;
+
 let coordinates = {}
 app.post("/userInfo", isLoggedIn, async function(req, res){
     postData = '';
@@ -111,24 +108,24 @@ app.post("/userInfo", isLoggedIn, async function(req, res){
 
         try{
             let newInfo = {};
-            zipcode = req.body.zipcode;
-            date = req.body.date;
-            time = req.body.time;
-            country = req.body.country;
+            newInfo.zipcode = req.body.zipcode;
+            newInfo.date = req.body.date;
+            newInfo.time = req.body.time;
+            newInfo.country = req.body.country;
 
             await docifyInfo(newInfo).save();
 
-            const ENTIRE_API_URL = `${ZIP_API_URL}${zipcode},${country}&appid=${ZIP_API_KEY}`;
+            const ENTIRE_API_URL = `${ZIP_API_URL}${newInfo.zipcode},${newInfo.country}&appid=${ZIP_API_KEY}`;
             
             axios.get(ENTIRE_API_URL).then(response=>{
                 coordinates.latitude = response.data.coord.lat;
                 coordinates.longitude = response.data.coord.lon;
 
-                const display = (`The coordinates of ${zipcode} are: \n
-                Latitude: ${coordinates.latitude} \n
-                Longitude: ${coordinates.longitude} \n
-                Current cloud cover at ${zipcode}, ${response.data.name} is ${weather} %!`);
-                console.log(display);
+                //const display = (`The coordinates of ${newInfo.zipcode} are: \n
+                //Latitude: ${coordinates.latitude} \n
+                //Longitude: ${coordinates.longitude} \n
+                //Current cloud cover at ${newInfo.zipcode}, ${response.data.name} is ${weather} %!`);
+                //console.log(display);
             })
 
         } catch (err){
