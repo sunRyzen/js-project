@@ -1,13 +1,13 @@
 # js-project
-A project made by Juliann Umana, Yash Mhaske, Nicholas Ingram, and Joseph Schwab. This project utilizes the AstronomyAPI Star Chart, and allows you to see the stars on a specific day in an area.
+A project made by Juliann Umana, Yash Mhaske, Nicholas Ingram, and Joseph Schwab. This project utilizes the D3-Celestial module, and allows you to view stars from anywhere in the world.
 
 modules used:
 
-  $ npm install ejs
+  npm install ejs
 
-  $ npm install express --save
+  npm install express --save
 
-  $ npm install mongoose
+  npm install mongoose
 
   npm install express-session --save
 
