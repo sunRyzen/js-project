@@ -54,6 +54,7 @@ let app = express();
 let session = require('express-session');
 app.set("view engine", "ejs");
 
+
 app.use(require("express-session")({
     secret: "This is a test",
     resave: false,
@@ -128,6 +129,8 @@ app.post("/userInfo", isLoggedIn, async function(req, res){
                 //console.log(display);
             })
 
+            res.redirect("skyview");
+
         } catch (err){
             next(err);
         }
@@ -135,6 +138,10 @@ app.post("/userInfo", isLoggedIn, async function(req, res){
     })
 })
 
+
+app.get("skyview", function(req, res){
+    res.render("skyview");
+})
 
 app.get("/register", function(req, res){
     res.render("register");
